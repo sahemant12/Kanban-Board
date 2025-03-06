@@ -1,0 +1,11 @@
+//Approach
+
+1. On click add task, task should be add.
+2. Task should be drag from one board to another. Also, get sorted.
+3. Task should have completed button. On tick on complete a line through should pass.
+4. Task should have delete and edit option.
+5. Add local storage.
+6. Have add more board option.
+7. board should have remove and edit option.
+8. Boards head shows count on number of tasks.
+9. 
