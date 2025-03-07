@@ -49,7 +49,6 @@ li{
     font-weight: 900;
     color:#6b6969;
     background-color: #e0e0e0;
-    /* border:1px solid red; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,12 +66,23 @@ li{
     margin-top: 5px;
 }
 .tasks-list{
+    /* display: flex;
+    flex-direction: column;
+    gap:10px; */
+    /* width:100%; */
+    height:100%;
+}
+.task-list{
     display: flex;
     flex-direction: column;
     gap:10px;
+    /* border:1px solid red; */
+    /* width:100%; */
+    height:100%;
 }
 .task{
     display: flex;
+    justify-content: space-between;
     align-items: center;
     background-color: #fff;
     height:40px;
@@ -81,6 +91,17 @@ li{
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
     cursor: pointer;
     border-radius: 6px;
+}
+.task-modify{
+    display: flex;
+    column-gap: 10px;
+}
+.task-name i{
+    font-size: 14px;
+    margin-right: 2px;
+}
+.task-name span{
+    /* text-decoration: line-through; */
 }
 #add-task-btn{
     border: none;
