@@ -96,6 +96,9 @@ li{
     display: flex;
     column-gap: 10px;
 }
+.task-name{
+    /* border:1px solid red; */
+}
 .task-name i{
     font-size: 14px;
     margin-right: 2px;
@@ -116,4 +119,18 @@ li{
 }
 #plus{
     font-size: 22px;
+}
+
+/* .flying{
+    position: absolute;
+    top:0;
+    z-index: 1000;
+    background-color: red;
+} */
+
+.completed{
+    color:#04f11f !important;
+}
+.add-strike{
+    text-decoration: line-through;
 }

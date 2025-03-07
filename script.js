@@ -26,9 +26,8 @@ const addTaskBtn = document.querySelectorAll(".add-task-btn");
 function renderBoard(board){
     const divBoard = document.createElement("div");
     divBoard.setAttribute("class","board");
-    // divBoard.setAttribute("id",`myboard-${board.id}`);
+    divBoard.setAttribute("id",`myboard-${board.id}`);
     // const [boardName, description, tasks] = board;
-    
     divBoard.innerHTML = `<div class="board-head">
                 <div class="head">
                     <span id="circle-icon" class="circle-icon"></span>
@@ -47,62 +46,145 @@ function renderBoard(board){
     const divList = document.createElement("div");
     divList.setAttribute("id",`board-${board.id}`);
     divList.setAttribute("class","task-list");
-    board.tasks.forEach((task)=>renderTask(task, divList));
-    taskList.appendChild(divList);
 
+    board.tasks.forEach((task)=>divList.appendChild(renderTask(task)));
+    taskList.appendChild(divList);
 }
 
-function renderTask(task, divList){
+function renderTask(task){
     const liTask = document.createElement("li");
     liTask.setAttribute("class", "task");
     liTask.setAttribute("draggable", "true"); 
     liTask.innerHTML = `<div class="task-name">
-                        <i class="fa-solid fa-circle-check" style="color: #04f11f;"></i>
-                        <!-- <i class="fa-solid fa-circle-check" style="color: #afb1af;"></i> -->
+                        <i class="fa-solid fa-circle-check" style="color: #afb1af; text-dec"></i>
                         <span>${task}</span>
                     </div>
                     <div class="task-modify">
-                        <i class="fa-regular fa-trash-can" style="color: #080808;"></i>
-                        <i class="fa-regular fa-pen-to-square" style="color: #080808;"></i>
-                    </div> `                
-    divList.appendChild(liTask);
+                        <i class="fa-regular fa-trash-can delete-icon" style="color: #080808;"></i>
+                        <i class="fa-regular fa-pen-to-square edit-icon" style="color: #080808;"></i>
+                    </div> `
+    return liTask;
 }
 
 
 addTaskBtn.forEach((taskBtn)=>{
     taskBtn.addEventListener("click",()=>{
+        //give prompt to create new task
         let task = prompt("Enter Task: ");
+        if(!task) return;
+
+        //get the id of current board
         const currBoardId = Number(taskBtn.dataset.id);
+
+        //using id to get the board Object
         const currBoard = boardObject.filter((board)=>currBoardId === board.id)[0];
+
+        //inside this board object->tasks push "new created task"
         currBoard.tasks.push(task);
+
+        //Now render only this new create task.
         const divList = document.getElementById(`board-${currBoardId}`);
-        divList.innerHTML = "";
-        currBoard.tasks.forEach((task)=>renderTask(task, divList));      
+        const liTask = renderTask(task);
+        divList.appendChild(liTask);
+        dragTask(liTask);     
+        completed(liTask.children[0]);
+        modifyTask(liTask);
     })
 })
 
 const allBoards = document.querySelectorAll(".board");
-const allTaskList = document.querySelectorAll(".task-list");
 const allTasks = document.querySelectorAll(".task");
 allTasks.forEach((task)=>{
-    task.addEventListener("dragstart",()=>{
-        task.classList.add("flying");
-    })
-    task.addEventListener("dragend",()=>{
-        task.classList.remove("flying");
-    })
+    dragTask(task);
+    
+    //for modify-task
+    modifyTask(task);
+    
 })
 allBoards.forEach((board)=>{
-    board.addEventListener("dragover",()=>{
-        const dragTask = document.querySelector(".flying");
-        const boardDecendent = board.children[1].children[0];   
-        boardDecendent.appendChild(dragTask);       
+    // board.addEventListener("dragover",(e)=>{
+    //     e.preventDefault();
+    // })
+
+    board.addEventListener("dragover",(e)=>{
+        e.preventDefault();
+        const movingTask = document.querySelector(".flying");
+        // console.log(movingTask);
+        if (!movingTask) return;    
+        const boardDecendent = board.children[1]?.children[0];    
+        boardDecendent.appendChild(movingTask); 
+
+        
+    // const afterElement = getDragAfterElement(board, e.clientY);
+    // const draggable = document.querySelector('.flying');
+    // const boardDecendent = board.children[1]?.children[0];
+    // if (afterElement == null) {
+    //     boardDecendent.appendChild(draggable)
+    // } else {
+    //     boardDecendent.insertBefore(draggable, afterElement)
+    // }
+
+
+
     })
 })
+function dragTask(target){    
+    target.addEventListener("dragstart",()=>{
+        target.classList.add("flying");
+        // document.body.appendChild(target);
+
+    })
+    target.addEventListener("dragend",()=>{
+        target.classList.remove("flying");
+        // document.body.removeChild(target); 
+    })
+}
+
+
+
+
+const taskName = document.querySelectorAll(".task-name");
+
+taskName.forEach((taskspan)=>{
+    completed(taskspan);  
+})
+
+function completed(target){
+    target.addEventListener("click",()=>{
+        target.children[1].classList.toggle("add-strike");
+        target.children[0].classList.toggle("completed");
+    })
+}
+
+const deleteTask = document.querySelectorAll(".task-modify");
+
+function modifyTask(taskModify){
+    taskModify.addEventListener("click",(e)=>{
+        if(e.target.classList.contains("delete-icon")){
+            taskModify.remove();
+        }
+        if(e.target.classList.contains("edit-icon")){
+            const editedTodo = prompt("Enter your task:");           
+            taskModify.children[0].children[1].textContent = editedTodo;
+        }
+    })
+}
+
+
+// function getDragAfterElement(container, y) {
+//     const draggableElements = [...container.querySelectorAll('.draggable:not(.flying)')]
+  
+//     return draggableElements.reduce((closest, child) => {
+//       const box = child.getBoundingClientRect();
+//       const offset = y - box.top - box.height / 2
+//       if (offset < 0 && offset > closest.offset) {
+//         return { offset: offset, element: child }
+//       } else {
+//         return closest;
+//       }
+//     }, { offset: Number.NEGATIVE_INFINITY }).element
+//   }
+
 //0. make New Board list
-//1. Solve dragging prbm
-//2. make it sort
-//3. Add delete, edit option
-//4. Add isCompleted
 //5. Store it in local storage
 //6. Have add more board option.
