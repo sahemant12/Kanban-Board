@@ -8,7 +8,42 @@
     <title>Kanban Board</title>
 </head>
 <body>
-    <div class="container" id="container"></div>    
+    <div class="container" id="container"></div>
+
+    <div class="add-board" id="add-board">
+        <button id="add-board-btn">+</button>
+    </div>
+
+    <div class="board-info hidden" id="board-info">
+        <div class="board-info-head">
+            <h4>Board</h4>
+            <span id="cross">X</span>
+        </div>
+        <hr>
+        <div class="board-info-description">
+            <h4>Name</h4>
+            <input type="text" name="board" id="board-name">
+            <h4>Colors</h4>
+            <div class="colors">
+                <span class="color"></span>
+                <span class="color"></span>
+                <span class="color"></span>
+                <span class="color"></span>
+                <span class="color"></span>
+            </div>
+            <h4>Description</h4>
+            <input type="text" name="board" id="board-description">
+        </div>
+        <hr id="info-hr">
+        <div class="board-create-btn">
+            <button class="btn" id="create-btn">Create</button>
+        </div>
+        <div class="board-edit-btn hidden">
+            <button class="btn" id="cancel-btn">Cancel</button>
+            <button class="btn" id="sumbit-btn">Create</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

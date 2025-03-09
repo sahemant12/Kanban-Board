@@ -3,19 +3,22 @@ const boardObject = [
         id:1741325549285,
         boardName: "ToDo",
         description: "These tasks I have to do.",
-        tasks: ["Task-1", "Task-2", "Task-3"]
+        tasks: ["Task-1", "Task-2", "Task-3"],
+        color:"#1a5ae4"
     },
     {
         id:1741325578595,
         boardName: "In Progress",
         description: "Currently doing these tasks.",
-        tasks: ["Task-1", "Task-2"]
+        tasks: ["Task-1", "Task-2"],
+        color:"#038b03"
     },
     {   
         id:1741325593155,
         boardName: "Done",
         description: "These tasks completed.",
-        tasks: ["Task-1", "Task-4", "Task-3"]
+        tasks: ["Task-1", "Task-4", "Task-3"],
+        color:"#1a5ae4"
     },
 ]
 
@@ -30,7 +33,7 @@ function renderBoard(board){
     // const [boardName, description, tasks] = board;
     divBoard.innerHTML = `<div class="board-head">
                 <div class="head">
-                    <span id="circle-icon" class="circle-icon"></span>
+                    <span id="circle-icon" class="circle-icon" style="border-color:${board.color}"></span>
                     <h4>${board.boardName}</h4>
                     <span id="total-task" class="total-task">${board.tasks.length}</span>
                 </div>
@@ -49,6 +52,7 @@ function renderBoard(board){
 
     board.tasks.forEach((task)=>divList.appendChild(renderTask(task)));
     taskList.appendChild(divList);
+    return divBoard;
 }
 
 function renderTask(task){
@@ -68,13 +72,16 @@ function renderTask(task){
 
 
 addTaskBtn.forEach((taskBtn)=>{
-    taskBtn.addEventListener("click",()=>{
+    addTask(taskBtn);
+})
+function addTask(target){
+    target.addEventListener("click",()=>{
         //give prompt to create new task
         let task = prompt("Enter Task: ");
         if(!task) return;
 
         //get the id of current board
-        const currBoardId = Number(taskBtn.dataset.id);
+        const currBoardId = Number(target.dataset.id);
 
         //using id to get the board Object
         const currBoard = boardObject.filter((board)=>currBoardId === board.id)[0];
@@ -90,7 +97,7 @@ addTaskBtn.forEach((taskBtn)=>{
         completed(liTask.children[0]);
         modifyTask(liTask);
     })
-})
+}
 
 const allBoards = document.querySelectorAll(".board");
 const allTasks = document.querySelectorAll(".task");
@@ -114,7 +121,7 @@ allBoards.forEach((board)=>{
         const boardDecendent = board.children[1]?.children[0];    
         boardDecendent.appendChild(movingTask); 
 
-        
+
     // const afterElement = getDragAfterElement(board, e.clientY);
     // const draggable = document.querySelector('.flying');
     // const boardDecendent = board.children[1]?.children[0];
@@ -188,3 +195,57 @@ function modifyTask(taskModify){
 //0. make New Board list
 //5. Store it in local storage
 //6. Have add more board option.
+
+const addBoardBtn = document.getElementById("add-board-btn");
+const crossBtn = document.getElementById("cross");
+const boardInfo = document.getElementById("board-info");
+const selectColor = document.querySelectorAll(".color");
+const createBoardBtn = document.getElementById("create-btn");
+addBoardBtn.addEventListener("click",()=>{
+    boardInfo.style.display = "block";
+    container.style.opacity = "0.5";
+
+})
+
+crossBtn.addEventListener("click",()=>{
+    boardInfo.style.display = "none";
+    container.style.opacity = "1";
+})
+let selectedColor = "#1a5ae4";
+selectColor.forEach((color)=>{
+    color.addEventListener("click",()=>{
+        for(let removeColor of selectColor){
+            if(color == removeColor){
+                continue;               
+            }
+            removeColor.classList.remove("selected-color");
+        }
+        color.classList.toggle("selected-color");
+        selectedColor = rgbToHex(window.getComputedStyle(color).backgroundColor);
+            
+    })
+})
+function rgbToHex(rgb) {
+    const [r, g, b] = rgb.match(/\d+/g);
+    return `#${((1 << 24) + (+r << 16) + (+g << 8) + +b).toString(16).slice(1)}`;
+}
+createBoardBtn.addEventListener("click",()=>{
+
+    const boardName = document.getElementById("board-name");
+    const boardDescription = document.getElementById("board-description");
+    const boardNameValue = boardName.value;
+    const boardDescriptionValue = boardDescription.value;
+    if(!boardNameValue || !boardDescriptionValue) return;
+
+    const newBoard ={   
+        id:Date.now(),
+        boardName: boardNameValue,
+        description: boardDescriptionValue,
+        tasks: [],
+        color:selectedColor
+    }
+    const divBoard = renderBoard(newBoard);
+    addTask(divBoard.children[2].children[0]);
+    boardName.value="";
+    boardDescription.value="";
+})
