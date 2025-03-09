@@ -35,7 +35,7 @@ function renderBoard(board){
                 <div class="head">
                     <span id="circle-icon" class="circle-icon" style="border-color:${board.color}"></span>
                     <h4>${board.boardName}</h4>
-                    <span id="total-task" class="total-task">${board.tasks.length}</span>
+                    <span id="total-task" class="total-task" data-id=${board.id}>${board.tasks.length}</span>
                 </div>
                 <p id="description">${board.description}</p>
             </div>
@@ -70,7 +70,7 @@ function renderTask(task){
     return liTask;
 }
 
-
+const totalTasks = document.querySelectorAll(".total-task");
 addTaskBtn.forEach((taskBtn)=>{
     addTask(taskBtn);
 })
@@ -96,6 +96,18 @@ function addTask(target){
         dragTask(liTask);     
         completed(liTask.children[0]);
         modifyTask(liTask);
+
+        //update total-task
+        updateTotalTask(currBoard);
+    })
+}
+
+function updateTotalTask(currBoard){
+    totalTasks.forEach((totaltask)=>{
+        const currBoardTotalTask = Number(totaltask.dataset.id);
+        if(currBoard.id === currBoardTotalTask){
+            totaltask.textContent = currBoard.tasks.length;                
+        }
     })
 }
 
@@ -168,7 +180,9 @@ const deleteTask = document.querySelectorAll(".task-modify");
 function modifyTask(taskModify){
     taskModify.addEventListener("click",(e)=>{
         if(e.target.classList.contains("delete-icon")){
-            taskModify.remove();
+            // taskModify.remove();
+            console.log(e.target.parentElement);
+            
         }
         if(e.target.classList.contains("edit-icon")){
             const editedTodo = prompt("Enter your task:");           
@@ -203,7 +217,7 @@ const selectColor = document.querySelectorAll(".color");
 const createBoardBtn = document.getElementById("create-btn");
 addBoardBtn.addEventListener("click",()=>{
     boardInfo.style.display = "block";
-    container.style.opacity = "0.5";
+    container.style.opacity = "0.7";
 
 })
 
@@ -248,4 +262,5 @@ createBoardBtn.addEventListener("click",()=>{
     addTask(divBoard.children[2].children[0]);
     boardName.value="";
     boardDescription.value="";
+    boardInfo.style.display = "none";
 })
