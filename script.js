@@ -92,9 +92,10 @@ function addTask(target){
         //drag this current-Task
         dragTask(newTask);
 
+        //delete-edit-task
+        modifyTask(newTask); 
+        
         // completed(liTask.children[0]);
-        // modifyTask(liTask);
-
 
     })
 }
@@ -126,8 +127,8 @@ function dragTask(target){
         target.classList.add("flying");
 
         //update board Object
-        const targetMainBoard = target.parentElement.parentElement;
-        const currBoardObj = getCurrBoardObj(targetMainBoard);
+        const targetBoard = target.parentElement.parentElement;
+        const currBoardObj = getCurrBoardObj(targetBoard);
         const movingTaskValue = target.querySelector("span").textContent;
 
         const removeTaskIndex = currBoardObj.tasks.indexOf(movingTaskValue);
@@ -138,8 +139,8 @@ function dragTask(target){
         target.classList.remove("flying");
         
         //update board Object
-        const targetMainBoard = target.parentElement.parentElement;
-        const currBoardObj = getCurrBoardObj(targetMainBoard);
+        const targetBoard = target.parentElement.parentElement;
+        const currBoardObj = getCurrBoardObj(targetBoard);
         const movingTaskValue = target.querySelector("span").textContent;       
         currBoardObj.tasks.push(movingTaskValue);
         updateTotalTask();
@@ -160,6 +161,30 @@ function getCurrBoardObj(board){
     return boardObject.filter((obj)=>currBoardId==obj.id)[0];
 }
 
+//6 modify task
+function modifyTask(taskModify){
+    taskModify.addEventListener("click",(e)=>{
+        
+        if(e.target.classList.contains("delete-icon") || e.target.classList.contains("edit-icon")){            
+            const targetBoard = e.target.parentElement?.parentElement?.parentElement?.parentElement;            
+            const currBoardObj = getCurrBoardObj(targetBoard);             
+            const TaskValue = e.target.parentElement.parentElement.querySelector("span").textContent;             
+            const removeTaskIndex = currBoardObj.tasks.indexOf(TaskValue);
+            
+            if(e.target.classList.contains("delete-icon")){
+                currBoardObj.tasks.splice(removeTaskIndex, 1);
+                updateTotalTask();
+                taskModify.remove();
+            }else{
+                const editedTodo = prompt("Enter your task:", TaskValue.textContent);      
+                currBoardObj.tasks.splice(removeTaskIndex, 1, editedTodo);
+                e.target.parentElement.parentElement.querySelector("span").textContent = editedTodo;
+            }
+            
+            
+        }
+    })
+}
 
 // const taskName = document.querySelectorAll(".task-name");
 
@@ -174,22 +199,6 @@ function getCurrBoardObj(board){
 //     })
 // }
 
-//5:Delete and edit task 
-const deleteTask = document.querySelectorAll(".task-modify");
-
-function modifyTask(taskModify){
-    taskModify.addEventListener("click",(e)=>{
-        if(e.target.classList.contains("delete-icon")){
-            // taskModify.remove();
-            console.log(e.target.parentElement);
-            
-        }
-        if(e.target.classList.contains("edit-icon")){
-            const editedTodo = prompt("Enter your task:");           
-            taskModify.children[0].children[1].textContent = editedTodo;
-        }
-    })
-}
 
 
 // function getDragAfterElement(container, y) {

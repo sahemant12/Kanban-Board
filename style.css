@@ -95,7 +95,8 @@ li{
 }
 .task-modify{
     display: flex;
-    column-gap: 10px;
+    column-gap: 7px;
+    /* border:1px solid red; */
 }
 .task-name{
     /* border:1px solid red; */
