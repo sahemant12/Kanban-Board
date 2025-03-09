@@ -68,20 +68,19 @@ li{
     margin-top: 5px;
 }
 .tasks-list{
-    /* display: flex;
-    flex-direction: column;
-    gap:10px; */
-    /* width:100%; */
-    height:100%;
-}
-.task-list{
     display: flex;
     flex-direction: column;
     gap:10px;
-    /* border:1px solid red; */
-    /* width:100%; */
     height:100%;
 }
+/* .task-list{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    border:1px solid red;
+    width:100%;
+    height:100%;
+} */
 .task{
     display: flex;
     justify-content: space-between;

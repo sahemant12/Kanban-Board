@@ -9,3 +9,15 @@
 7. board should have remove and edit option.
 8. Boards head shows count on number of tasks.
 9. 
+
+
+1. Create seperate folder for each
+2. proper edit and delete functionality
+3. Update task-length
+4. Create board & update dynamically
+5. Edit Board
+6. Remove board
+7. task ui change during drag
+8. sort drag
+9. show drag effect
+10. local storage
