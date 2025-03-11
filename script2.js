@@ -4,16 +4,8 @@ const container = document.getElementById("container");
 //render all board present in database//1
 boardObject.forEach((board)=>renderBoard(board));
 
-let allBoards;
-let allTasks;
-let addTaskBtn;
-function reRender() {
-    allBoards = document.querySelectorAll(".board");
-    allTasks = document.querySelectorAll(".task");
-    addTaskBtn = document.querySelectorAll(".add-task-btn");
-}
-reRender();
-dragNdrop();
+const addTaskBtn = document.querySelectorAll(".add-task-btn");
+
 //render each board
 function renderBoard(board){
 
@@ -73,9 +65,10 @@ addTaskBtn.forEach((taskBtn)=>{
     addTask(taskBtn);
 })
 function addTask(target){
-
+    // console.log("1", boardObject);
     target.addEventListener("click",()=>{
-
+        // console.log("yes", target);
+        
         //give prompt to create new task
         let task = prompt("Enter Task: ");
         if(!task) return;
@@ -92,18 +85,20 @@ function addTask(target){
         const taskList = document.getElementById(`${currBoardObj.id}`);
         const newTask = renderTask(task);
         taskList.appendChild(newTask);
+        // console.log(taskList);
 
         //update total-task
         updateTotalTask();
-        
+
         //drag this current-Task
         dragTask(newTask);
-        dragOverBoard(target.parentElement?.parentElement);
-        //delete-edit task
+
+        //delete-edit-task
         modifyTask(newTask); 
         
         // completed(liTask.children[0]);
-
+        //Update dragNDrop for each task
+        dragNdrop();
     })
 }
 
@@ -111,10 +106,15 @@ function addTask(target){
 //4
 // const allBoards = document.querySelectorAll(".board");
 // const allTasks = document.querySelectorAll(".task");
-// const addTaskBtn = document.querySelectorAll(".add-task-btn");
-
+let allBoards;
+let allTasks;
+function reRender() {
+    allBoards = document.querySelectorAll(".board");
+    allTasks = document.querySelectorAll(".task");
+}
+reRender();
 function dragNdrop(){
-
+    reRender();
     allTasks.forEach((task)=>{
         dragTask(task);
         
@@ -123,27 +123,22 @@ function dragNdrop(){
     })
     
     allBoards.forEach((board)=>{
-        // console.log(board);
-        dragOverBoard(board);
+        board.addEventListener("dragover",(e)=>{
+            e.preventDefault();
+            // console.log("Hello");
+            
+            const movingTask = document.querySelector(".flying");
+            if (!movingTask) return;
+            
+            //append this movingTask to current board
+            const allTaskElement = board.children[1];    
+            allTaskElement.appendChild(movingTask);
+    
+        })
     })
 }
-
-function dragOverBoard(board){
-    
-    board.addEventListener("dragover",(e)=>{
-        e.preventDefault();
-        
-        const movingTask = document.querySelector(".flying");
-        if (!movingTask) return;
-        
-        //append this movingTask to current board
-        const allTaskElement = board.children[1];    
-        allTaskElement.appendChild(movingTask);
-
-    })
-}
-function dragTask(target){
-    
+dragNdrop();
+function dragTask(target){    
     target.addEventListener("dragstart",()=>{
         target.classList.add("flying");
 
@@ -162,8 +157,7 @@ function dragTask(target){
         //update board Object
         const targetBoard = target.parentElement.parentElement;
         const currBoardObj = getCurrBoardObj(targetBoard);
-        const movingTaskValue = target.querySelector("span").textContent; 
-              
+        const movingTaskValue = target.querySelector("span").textContent;       
         currBoardObj.tasks.push(movingTaskValue);
         updateTotalTask();
     })
@@ -172,9 +166,12 @@ function dragTask(target){
 //update allTaskList
 //5
 function updateTotalTask(){
+    reRender();
     allBoards.forEach((board)=>{
+        // console.log("2", boardObject);
         
         const totalTasks = board.querySelector("#total-task");
+        // console.log(board);
         
         const currBoardObj = getCurrBoardObj(board);  
         totalTasks.textContent = currBoardObj.tasks.length;
@@ -200,8 +197,7 @@ function modifyTask(taskModify){
                 updateTotalTask();
                 taskModify.remove();
             }else{
-                const editedTodo = prompt("Enter your task:", TaskValue).trim();
-                if(!editedTodo) return;   
+                const editedTodo = prompt("Enter your task:", TaskValue.textContent);      
                 currBoardObj.tasks.splice(removeTaskIndex, 1, editedTodo);
                 e.target.parentElement.parentElement.querySelector("span").textContent = editedTodo;
             }
@@ -240,4 +236,4 @@ function modifyTask(taskModify){
 //     }, { offset: Number.NEGATIVE_INFINITY }).element
 //   }
 
-export {renderBoard, addTask, updateTotalTask, reRender};
+export {renderBoard, addTask, updateTotalTask};

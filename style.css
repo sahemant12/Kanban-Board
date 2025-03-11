@@ -35,6 +35,7 @@ li{
 
 .board-head{
     margin-bottom: 20px;
+    position: relative;
 }
 .head{
     display: flex;
@@ -43,6 +44,23 @@ li{
 }
 .head h4{
     font-size: 18px;
+}
+.delete-board-btn{
+    width:20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 10px;
+    border: none;
+    background-color: #fff;
+    position: absolute;
+    right:-15px;
+    top:-10px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    transition: 0.5s background-color ease-in-out;
+}
+.delete-board-btn:hover{
+    background-color: #f0efef;
 }
 #total-task{
     width:15px;
