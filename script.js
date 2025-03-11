@@ -4,6 +4,10 @@ const container = document.getElementById("container");
 //render all board present in database//1
 boardObject.forEach((board)=>renderBoard(board));
 
+// boardObject.forEach((board)=>{
+//     console.log("main: ", board.tasks);
+// });
+
 let allBoards;
 let allTasks;
 let addTaskBtn;
@@ -12,6 +16,7 @@ function reRender() {
     allTasks = document.querySelectorAll(".task");
     addTaskBtn = document.querySelectorAll(".add-task-btn");
 }
+{/* <button id="delete-board-btn" data-id=${board.id} class="delete-board-btn">X</button> */}
 reRender();
 dragNdrop();
 //render each board
@@ -27,7 +32,11 @@ function renderBoard(board){
                     <span id="circle-icon" class="circle-icon" style="border-color:${board.color}"></span>
                     <h4>${board.boardName}</h4>
                     <span id="total-task" class="total-task" data-id=${board.id}>${board.tasks.length}</span>
-                    <button id="delete-board-btn" data-id=${board.id} class="delete-board-btn">X</button>
+                    <i class="fa-solid fa-ellipsis modify-board-icon" style="color: #0d0d0d;" data-id=${board.id} id="modify-board-icon"></i>
+                    <div class="modify-board-container hidden-modify-board">
+                        <button class="board-edit"><i class="fa-solid fa-pen edit-icon" style="color: #616161;"></i>Edit</button>
+                        <button class="board-delete"><i class="fa-solid fa-trash" style="color: #616161;"></i>Delete</button>
+                    </div>
                 </div>
                 <p id="description">${board.description}</p>
             </div>
@@ -60,8 +69,8 @@ function renderTask(task){
                         <span>${task}</span>
                     </div>
                     <div class="task-modify">
-                        <i class="fa-regular fa-trash-can delete-icon" style="color: #080808;"></i>
-                        <i class="fa-regular fa-pen-to-square edit-icon" style="color: #080808;"></i>
+                        <i class="fa-solid fa-trash delete-icon" style="color: #616161;"></i>
+                        <i class="fa-solid fa-pen edit-icon" style="color: #616161;"></i>
                     </div> `
     return liTask;
 }
@@ -102,8 +111,9 @@ function addTask(target){
         //delete-edit task
         modifyTask(newTask); 
         
-        // completed(liTask.children[0]);
-
+        // boardObject.forEach((board)=>{
+        //     console.log("add-task: ", board.tasks);
+        // });
     })
 }
 
@@ -157,6 +167,7 @@ function dragTask(target){
         updateTotalTask();
     })
     target.addEventListener("dragend",()=>{
+
         target.classList.remove("flying");
         
         //update board Object
@@ -166,6 +177,9 @@ function dragTask(target){
               
         currBoardObj.tasks.push(movingTaskValue);
         updateTotalTask();
+        // boardObject.forEach((board)=>{
+        //     console.log("dragEnd: ", board.tasks);
+        // });
     })
 }
 
@@ -199,11 +213,17 @@ function modifyTask(taskModify){
                 currBoardObj.tasks.splice(removeTaskIndex, 1);
                 updateTotalTask();
                 taskModify.remove();
+                // boardObject.forEach((board)=>{
+                //     console.log("delete: ", board.tasks);
+                // });
             }else{
                 const editedTodo = prompt("Enter your task:", TaskValue).trim();
                 if(!editedTodo) return;   
                 currBoardObj.tasks.splice(removeTaskIndex, 1, editedTodo);
                 e.target.parentElement.parentElement.querySelector("span").textContent = editedTodo;
+                // boardObject.forEach((board)=>{
+                //     console.log("edit: ", board.tasks);
+                // });
             }
             
             
@@ -240,4 +260,4 @@ function modifyTask(taskModify){
 //     }, { offset: Number.NEGATIVE_INFINITY }).element
 //   }
 
-export {renderBoard, addTask, updateTotalTask, reRender};
+export {renderBoard, addTask, reRender, dragNdrop, dragOverBoard};

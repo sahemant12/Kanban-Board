@@ -1,30 +1,30 @@
 import boardObject from "./data.js"
-import {renderBoard, addTask, updateTotalTask, reRender} from "./script.js"
+import {renderBoard, addTask, reRender, dragNdrop, dragOverBoard} from "./script.js"
 
 const addBoardBtn = document.getElementById("add-board-btn");
 const boardInfo = document.getElementById("board-info");
 const crossBtn = document.getElementById("cross");
 const createBoardBtn = document.getElementById("create-btn");
 const container = document.getElementById("container");
-const selectColor = document.querySelectorAll(".color");
+const selectColor = document.querySelectorAll(".circle-color");
 
 addBoardBtn.addEventListener("click",()=>{
-    // boardInfo.style.display = "block";
-    // container.style.opacity = "0.7";
-    // container.style.pointerEvents = "none";
+    boardInfo.style.display = "block";
+    container.style.opacity = "0.7";
+    container.style.pointerEvents = "none";
 
-    const newBoard ={   
-        id:Date.now(),
-        boardName: "Hello",
-        description: "Am I working",
-        tasks: [],
-        color:selectedColor
-    }
-    boardObject.push(newBoard);
+    // const newBoard ={   
+    //     id:Date.now(),
+    //     boardName: "Hello",
+    //     description: "Am I working",
+    //     tasks: [],
+    //     color:selectedColor
+    // }
+    // boardObject.push(newBoard);
 
-    const currentBoard = renderBoard(newBoard);       
-    addTask(currentBoard.children[2].children[0]);
-    reRender();
+    // const currentBoard = renderBoard(newBoard);       
+    // addTask(currentBoard.children[2].children[0]);
+    // reRender();
     
 })
 
@@ -63,42 +63,75 @@ createBoardBtn.addEventListener("click",()=>{
     const boardNameValue = boardName.value;
     const boardDescriptionValue = boardDescription.value;
 
-    // if(!boardNameValue || !boardDescriptionValue) return;
+    if(!boardNameValue || !boardDescriptionValue) return;
 
-    // const newBoard ={   
-    //     id:Date.now(),
-    //     boardName: boardNameValue,
-    //     description: boardDescriptionValue,
-    //     tasks: [],
-    //     color:selectedColor
-    // }
     const newBoard ={   
         id:Date.now(),
-        boardName: "Hello",
-        description: "Am I working",
+        boardName: boardNameValue,
+        description: boardDescriptionValue,
         tasks: [],
         color:selectedColor
     }
-    renderBoard(newBoard);
-    // addTask(divBoard.children[2].children[0]);
+    // const newBoard ={   
+    //     id:Date.now(),
+    //     boardName: "Hello",
+    //     description: "Am I working",
+    //     tasks: [],
+    //     color:selectedColor
+    // }
+    boardObject.push(newBoard);
 
-    // boardObject.push(newBoard);
+    const currentBoard = renderBoard(newBoard);       
+    addTask(currentBoard.children[2].children[0]);
+    reRender();
+    // dragNdrop();
+    dragOverBoard(currentBoard);
     boardName.value="";
     boardDescription.value="";
 
     boardInfo.style.display = "none";
     container.style.opacity = "1";
     container.style.pointerEvents = "auto";
-    // console.log(boardObject);
+
 })
 
 
-//delete-board
-// const deleteBoardBtn = document.querySelectorAll(".delete-board-btn");
-// deleteBoardBtn.forEach((delBoardBtn)=>{
-//     delBoardBtn.addEventListener("click",(e)=>{
-//         const currBoard = e.target.dataset.id;
-//         console.log(currBoard);
+// delete-board
+const modifyBoardIcon = document.querySelectorAll(".modify-board-icon");
+modifyBoardIcon.forEach((modifyboard)=>{
+    modifyboard.addEventListener("click",(e)=>{
+        const displayModifyContainer = e.target.parentElement?.children[4];
+        if(displayModifyContainer.classList.contains("modify-board-container")){
+            displayModifyContainer.classList.remove("hidden-modify-board");           
+        }
+
+        const deleteBoardBtn = displayModifyContainer.children[1];
+        const editBoardBtn = displayModifyContainer.children[0];
+        const mainBoard = displayModifyContainer.parentElement.parentElement.parentElement;
+        const boardId = mainBoard.dataset.id;
+        let modifyBoardIndex = -1;
+        boardObject.forEach((ele, index)=>{
+            if(ele.id == boardId){
+                modifyBoardIndex = index;
+            }
+        })
+        // let hope = boardObject.indexOf(boardId);
+        console.log(modifyBoardIndex);
         
-//     })
-// })
+        deleteBoardBtn.addEventListener("click",()=>{
+            // mainBoard.remove();
+            
+            boardObject = boardObject.filter((id)=>boardId!=id);
+            console.log(boardObject);
+            
+            
+        })
+        editBoardBtn.addEventListener("click",()=>{
+            console.log("edit");
+            
+        })
+
+        
+        
+    })
+})

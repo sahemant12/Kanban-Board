@@ -45,22 +45,19 @@ li{
 .head h4{
     font-size: 18px;
 }
-.delete-board-btn{
-    width:20px;
-    height: 20px;
-    border-radius: 50%;
-    font-size: 10px;
+.modify-board-icon{
+    font-size: 20px;
     border: none;
-    background-color: #fff;
+    background-color: #f9f9f9;
     position: absolute;
-    right:-15px;
+    right:-10px;
     top:-10px;
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     transition: 0.5s background-color ease-in-out;
 }
-.delete-board-btn:hover{
+.modify-board-icon:hover{
     background-color: #f0efef;
+
 }
 #total-task{
     width:15px;
@@ -254,11 +251,11 @@ li{
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     background-color: #fffcfc;
 }
-.colors{
+.circle-colors{
     display: flex;
     column-gap: 6px;
 }
-.colors span{
+.circle-colors span{
     width:20px;
     height:20px;
     border-radius: 50%;
@@ -269,21 +266,59 @@ li{
     outline:2px solid grey !important;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
 }
-.color:nth-child(1){
+.circle-color:nth-child(1){
     background-color: #d978d9;
 }
-.color:nth-child(2){
+.circle-color:nth-child(2){
     background-color: #9103f6;
 }
-.color:nth-child(3){
+.circle-color:nth-child(3){
     background-color: #1a5ae4;
 }
-.color:nth-child(4){
+.circle-color:nth-child(4){
     background-color: #038b03;
 }
-.color:nth-child(5){
+.circle-color:nth-child(5){
     background-color: #fd0000;
+}
+.circle-colors span:hover{
+    box-shadow: rgba(0, 0, 0, 1) 0px 3px 8px;
 }
 .hidden{
     display: none;
+}
+
+.delete-icon, .edit-icon{
+    transition: 0.3s box-shadow ease-in-out;
+}
+.delete-icon:hover, .edit-icon:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.modify-board-container{
+    width:100px;
+    height:62px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f5f5;
+    position: absolute;
+    top:10px;
+    right:-10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.board-edit, .board-delete{
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    background-color: #fff;
+    color:#121212;
+    border: none;
+    cursor: pointer;
+}
+.board-edit:hover, .board-delete:hover{
+    background-color: #817d7d;
+}
+.hidden-modify-board{
+    display: none !important;
 }
