@@ -25,14 +25,6 @@
 
 
 
-//problem to solve
-//1. Add board
-//2. Add task
-//3. dragNDrop task
-//4. totalTask update
-
-
-
 
 
 

@@ -204,10 +204,11 @@ li{
     border: 1px solid grey;
     border-radius: 5px;
     padding: 5px;   
+    font-style: italic;
 }
-.board-info-description input:focus{
-    outline: 1px solid rgb(24, 117, 247);
-}
+/* .board-info-description input:focus{
+
+} */
 .board-info hr{
     margin-inline: -10px;
     margin-top: 10px;
