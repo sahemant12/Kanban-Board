@@ -8,7 +8,7 @@
 6. Have add more board option.
 7. board should have remove and edit option.
 8. Boards head shows count on number of tasks.
-9. 
+
 
 
 1. Create seperate folder for each
