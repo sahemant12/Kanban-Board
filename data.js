@@ -18,7 +18,7 @@ const boardObject = [
     tasks: [
       "Lexical scoping",
       "Closures with examples",
-      "this keyword in different contexts"
+      "'this' in different contexts"
     ],
     color: "#038b03"
   },
