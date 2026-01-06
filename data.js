@@ -6,7 +6,7 @@ const boardObject = [
     tasks: [
       "Understand execution context",
       "Learn event loop & call stack",
-      "Revise array methods"
+      "Array methods"
     ],
     isAddTask: true,
     color: "#1a5ae4"
