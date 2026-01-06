@@ -8,6 +8,7 @@ const boardObject = [
       "Learn event loop & call stack",
       "Revise array methods"
     ],
+    isAddTask: true,
     color: "#1a5ae4"
   },
   {

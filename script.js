@@ -24,7 +24,7 @@ function reRender() {
 
 
 function renderBoard(board){
-
+    const addTask = "+ Add Task";
     //create div element that have board  
     const divBoard = document.createElement("div");
     divBoard.setAttribute("class","board");
@@ -45,7 +45,7 @@ function renderBoard(board){
             </div>
             <div class="tasks-list" id=${board.id}></div>
             <div class="add-task">
-                <button id="add-task-btn" data-id=${board.id} class="add-task-btn"><span id="plus">+</span>Add task</button>            
+                <button id="add-task-btn" data-id=${board.id} class="add-task-btn"><span id="plus">${board.isAddTask? addTask: ""}</span></button>            
             </div>`
     container.appendChild(divBoard);
 
